@@ -1,10 +1,10 @@
 #include "enrutador.h"
-
+//constructor
 Enrutador::Enrutador()
 {
 
 }
-
+//metodos
 void Enrutador::lecturaCaminos(char router, string caminoRecorrido, char destino, char copi, char an, int ValorCami, int &B, string &caminoMayor)
 {
     int longitud=NomConexRuter.size();
@@ -80,7 +80,6 @@ void Enrutador::LectuArchi()
         if (linea ==""){
             linea=data;
         }
-
         int longitud =linea.length();
         int separador=0;
         for (int i =0;i < longitud;i++){
@@ -98,9 +97,125 @@ void Enrutador::LectuArchi()
 
         NomConexRuter.push_back(conexionRuter);
         valConexRuter.push_back(stoi(ValorConex));
-
     }
-
     // Se cierra el archivo abierto
     infile.close();
 }
+
+void Enrutador::Actualizacion()
+{
+    for (auto router:NomConexRuter){
+        routers[router[0]]={};
+    }
+    for (map <char,vector<string>>::iterator DefinicionR =routers.begin();DefinicionR != routers.end();++DefinicionR){
+        for (map <char,vector<string>>::iterator parametros =routers.begin();parametros != routers.end();++parametros){
+
+            char copi=DefinicionR->first, an=DefinicionR->first;
+            int ValorCami=0;
+            int B=100;
+            string caminoRecorrido,claveInter,Valor;
+            string caminoMayor;
+            claveInter.push_back(parametros->first);
+
+            lecturaCaminos(DefinicionR->first,caminoRecorrido,parametros->first,copi,an,ValorCami,B,caminoMayor);
+            routers[DefinicionR->first].push_back(claveInter);
+            if (B==100){
+                B=0;
+            }
+            routers[DefinicionR->first].push_back(to_string(B));
+            routers[DefinicionR->first].push_back(caminoMayor);
+
+
+        }
+    }
+
+}
+
+void Enrutador::IngresoManualRouters()
+{
+    cout<<"para agregar un enrutador a la red debe ingresar las conexiones con los demas routers "<<endl;
+    cout<<"la siguiente manera: "<<endl;
+    cout<<"<enturador+enrutador al que esta conectado>,< , >,<valor que tendra la conexion>"<<endl;
+    cout<<"Ejemplo: AB,7"<<endl;
+    cout<<"para dejar de ingresar conexiones entre routers ingrese la letra 'n' "<<endl;
+
+
+    while (true){
+        int longitud=NomConexRuter.size();
+        for(int i=0;i<longitud;i++){
+            cout<<" [ "<<NomConexRuter[i]<<" ] ";
+        }
+        string linea,conexionRuter,ValorConex;
+
+
+        cout<<"==> ";
+        cin>>linea;
+
+        if (linea == "n"){
+            break;
+        }
+        else{
+            int separador=0,longitud=linea.size();
+            for (int i =0;i < longitud;i++){
+                if (linea[i]==','){
+                    separador++;
+                }
+                else if(separador==0){
+
+                    conexionRuter+=linea[i];
+
+                }
+                else if(separador==1){
+                    ValorConex+=linea[i];
+                }
+            }
+            int cont=0;
+            int longitudVector=NomConexRuter.size();
+            for(int i =0;i<longitudVector;i++){
+                if (NomConexRuter[i] == conexionRuter){
+                    cont++;
+                }
+
+            }
+            if(cont==0){
+                NomConexRuter.push_back(conexionRuter);
+                valConexRuter.push_back(stoi(ValorConex));
+            }
+            else{
+                cout<<"Ingreso no valido, las conexiones estan repetidas"<<endl;
+            }
+
+        }
+    }
+}
+
+vector<int> Enrutador::getValConexRuter() const
+{
+    return valConexRuter;
+}
+
+void Enrutador::setValConexRuter(const vector<int> &value)
+{
+    valConexRuter = value;
+}
+
+vector<string> Enrutador::getNomConexRuter() const
+{
+    return NomConexRuter;
+}
+
+void Enrutador::setNomConexRuter(const vector<string> &value)
+{
+    NomConexRuter = value;
+}
+
+map<char, vector<string> > Enrutador::getRouters() const
+{
+    return routers;
+}
+
+void Enrutador::setRouters(const map<char, vector<string> > &value)
+{
+    routers = value;
+}
+

@@ -9,12 +9,12 @@ using namespace std;
 
 class Enrutador
 {
-private:
+private://atributos
     vector<int>valConexRuter;
     vector<string>NomConexRuter;
     map<char,vector<string>>routers;
-public:
-    Enrutador();
+public://metodos
+    Enrutador();//constructor
     void lecturaCaminos(char router, string caminoRecorrido, char destino,char copi,char an,int ValorCami,int &B,string &caminoMayor);
     void LectuArchi();
     void Actualizacion();
