@@ -26,7 +26,7 @@ void modelado::IngresoManualRouters()
         string linea,conexionRuter,ValorConex;
 
 
-        cout<<"==> ";
+        cout<<"=> ";
         cin>>linea;
 
         if (linea == "n"){

@@ -146,9 +146,7 @@ void Enrutador::IngresoManualRouters()
             cout<<" [ "<<NomConexRuter[i]<<" ] ";
         }
         string linea,conexionRuter,ValorConex;
-
-
-        cout<<"==> ";
+        cout<<"=>";
         cin>>linea;
 
         if (linea == "n"){
